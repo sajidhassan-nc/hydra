@@ -1,4 +1,4 @@
-FROM golang:1.26 AS builder
+FROM golang:1.26.2 AS builder
 
 WORKDIR /go/src/github.com/ory/hydra
 
@@ -15,7 +15,7 @@ COPY internal/httpclient/go.* ./internal/httpclient/
 RUN go mod download
 
 COPY . .
-RUN go build -ldflags="-extldflags=-static" -o /usr/bin/hydra
+RUN CGO_ENABLED=0 go build -ldflags="-extldflags=-static" -o /usr/bin/hydra
 
 #########################
 
